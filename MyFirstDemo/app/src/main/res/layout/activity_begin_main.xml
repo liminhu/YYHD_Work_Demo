@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.my.hu.baiduyun.BeginMainActivity">
+
+
+    <Button android:id="@+id/login_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="1.测试百度云的登录页面的功能"
+        android:textColor="#FF0000"
+        android:onClick="showLoginView"/>
+
+
+    <Button android:id="@+id/login_test2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="2.测试百度云的post webviews登录功能"
+        android:textColor="#FF0000"
+        android:onClick="showLoginView2"/>
+
+
+    <Button android:id="@+id/show_link_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="测试百度的高速下载自动打开客户端!"
+        android:textColor="#FF0000"
+        android:onClick="showhighDownloadLink"/>
+
+    <Button android:id="@+id/return_post_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="0.返回到别的目录菜单"
+        android:onClick="returnOtherTheme"/>
+</LinearLayout>

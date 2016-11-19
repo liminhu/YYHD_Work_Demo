@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.my.hu.myfirstdemo">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".Test1MainActivity"
+            android:process=":download" />
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_test1_main"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name="com.my.hu.datalist.DataListActivity" />
+
+        <provider
+            android:name="com.my.hu.provider.UrlinfoProvider"
+            android:authorities="com.my.hu.myfirst.demo" />
+
+        <activity
+            android:name="com.my.hu.myinterface.JsonActivity"
+            android:label="测试Json" />
+        <activity android:name="com.my.hu.myinterface.ShowDataActivity" />
+        <activity android:name="com.my.hu.baiduyun.ShowBaiduDataActivity" />
+        <activity
+            android:name="com.my.hu.postdata.MyPostActivity"
+            android:label="测试Post数据">
+        </activity>
+        <activity
+            android:name="com.my.hu.postdata.NewUrlActivity"
+            android:label="测试保存新的直链url到本地数据库" />
+        <activity
+            android:name="com.my.hu.postdata.MyWebViewActivity"
+            android:label="测试webview多个直接下载"
+            android:process=":download" />
+        <activity android:name="com.my.hu.postdata.MyNewUrlActivity" />
+        <activity
+            android:name="com.my.hu.baiduyun.BaiduUrlActivity"
+            android:label="测试baidu高速下载" />
+        <activity
+            android:name="com.my.hu.baiduyun.HightDownloadActivity"
+            android:label="test baidu high download" />
+        <activity android:name="com.my.hu.baiduyun.BeginMainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

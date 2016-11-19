@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.my.hu.postdata.MyPostActivity">
+
+    <Button android:id="@+id/test_getJsondata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="1.测试从服务器拿原始url保存到本地!!!"
+        android:onClick="getJsonData"/>
+
+
+    <Button android:id="@+id/test_get_new_url"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="2.测试保存新的直链url到本地数据库!!!"
+        android:onClick="getNewUrlData"/>
+
+
+    <Button android:id="@+id/test_postDataTOServer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="3.测试post新的直链url到服务器数据库!!!"
+        android:onClick="postDataTOServer"/>
+
+    <Button android:id="@+id/test_all_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="0.转到单个测试!"
+        android:onClick="goToFirstTest"/>
+
+    <Button android:id="@+id/test_all_baidu_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="4测试百度的高速下载自动打开客户端!"
+        android:textColor="#FF0000"
+        android:onClick="goToBaiduTest"/>
+
+    <Button android:id="@+id/test_highDownload_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="5生成百度的baiduyun://127.0.0.1/链接!"
+        android:textColor="#FF0000"
+        android:onClick="goTohighDownloadTest"/>
+</LinearLayout>

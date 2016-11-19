@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">WebViewJSInjectV2</string>
+    <string name="platform_name">平台名</string>
+    <string name="id">编号</string>
+    <string name="download_package_name">文件名</string>
+    <string name="downLoad_url">下载url链接</string>
+    <string name="request_time">保存时间</string>
+    <string name="md5">md5值</string>
+</resources>

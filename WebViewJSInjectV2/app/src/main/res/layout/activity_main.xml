@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button android:id="@+id/get_raw_link_test"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="1.测试得到所有的raw链接url"
+        android:textColor="#FF0000"
+        android:onClick="getRawLinkView"/>
+
+    <Button android:id="@+id/get_download_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="2.获取直链下载url,并且保存到数据库"
+        android:textColor="#FF0000"
+        android:onClick="getDownLoadLink"/>
+
+
+    <Button android:id="@+id/post_download_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="3.点击上传直链到数据库"
+        android:textColor="#FF0000"
+        android:onClick="postDownLoadLink"/>
+
+    <Button android:id="@+id/show_download_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="4.查看直链下载url"
+        android:onClick="showDownLoadLink"/>
+
+    <Button android:id="@+id/show_rawdata_link"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="5.查看从服务器拿到的数据url"
+        android:onClick="show_rawdata_link"/>
+</LinearLayout>

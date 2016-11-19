@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button android:id="@+id/loadSo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click me test baidu webview https!!!"
+        android:onClick="LoadSo"/>
+
+ <Button android:id="@+id/loadSo1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click me test 360 webview https!!!"
+        android:onClick="LoadSo1"/>
+
+    <Button android:id="@+id/loadSo2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Click me test 天翼 webview https!!!"
+        android:onClick="LoadSo2"/>
+
+
+    <Button android:id="@+id/test_list_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="测试 db data!!!"
+        android:onClick="LoadSo3"/>
+
+
+    <Button android:id="@+id/test_provider_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="测试 provider content data!!!"
+        android:onClick="LoadProvider"/>
+
+
+
+    <Button android:id="@+id/test_json_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="测试 json data!!!"
+        android:onClick="LoadJson"/>
+
+</LinearLayout>

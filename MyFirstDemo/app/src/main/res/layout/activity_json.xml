@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.my.hu.myinterface.JsonActivity">
+
+    <Button android:id="@+id/testGetJson"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Click me test get Json Data!!!"
+        android:onClick="GetJson"/>
+
+
+    <Button android:id="@+id/test_save_getJsondata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="测试 json data 保存到数据库!!!"
+        android:onClick="saveJsonData"/>
+
+    <Button android:id="@+id/List_Jsondata"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="显示所有show json 数据库url!!!"
+        android:onClick="showJsonData"/>
+
+
+</LinearLayout>

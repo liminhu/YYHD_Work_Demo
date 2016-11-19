@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.my.hu.webviewjsinjectv2">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="MainActivity">
+        </activity>
+        <activity android:name="com.my.hu.activity.RawLinkActivity" />
+        <activity
+            android:name="com.my.hu.activity.gen.downloadlink.TianyiDownloadLinkActivity"
+            android:label="TianyiDownloadLinkActivity" />
+        <activity
+            android:name="com.my.hu.activity.gen.downloadlink.BaiduDownloadLinkActivity"
+            android:label="BaiduDownloadLinkActivity" />
+        <activity
+            android:name="com.my.hu.activity.gen.downloadlink.Qh360DownlinkActivity"
+            android:label="Qh360DownlinkActivity" />
+        <activity
+            android:name="com.my.hu.activity.gen.downloadlink.Qh360WebViewActivity"
+            android:label="Qh360WebViewActivity"
+            android:process=":download" />
+        <activity
+            android:name="com.my.hu.activity.gen.downloadlink.ShowDownloadLinkActivity"
+            android:label="ShowDownloadLinkActivity" />
+        <activity
+            android:name="com.my.hu.activity.ShowRawDataActivity"
+            android:label="ShowRawDataActivity" />
+        <activity
+            android:name="com.my.hu.post.activity.TianyiPostActivity"
+            android:label="TianyiPostActivity" />
+        <activity
+            android:name="com.my.hu.post.activity.BaiduPostActivity"
+            android:label="BaiduPostActivity" />
+        <activity
+            android:name="com.my.hu.post.activity.QH360PostActivity"
+            android:label="QH360PostActivity" />
+        <activity
+            android:name=".TimerTaskMainActivity"
+            android:label="TimerTaskMainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.my.hu.post.invalid.activity.BaiduPostInvalidActivity"
+            android:label="BaiduPostInvalidActivity" />
+        <activity
+            android:name="com.my.hu.post.invalid.activity.QH360PostInvalidActivity"
+            android:label="QH360PostInvalidActivity" />
+        <activity
+            android:name="com.my.hu.activity.gen.downloadlink.BaiduTwoDownloadLinkActivity"
+            android:label="BaiduTwoDownloadLinkActivity" />
+        <activity android:name="com.my.hu.post.activity.BaiduTwoPostActivity"
+            android:label="BaiduTwoPostActivity"></activity>
+    </application>
+
+</manifest>

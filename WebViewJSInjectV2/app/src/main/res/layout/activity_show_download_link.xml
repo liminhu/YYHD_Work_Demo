@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+   >
+
+
+    <Button android:id="@+id/tianyi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="#FF0000"
+        android:text="点击查看 天翼 生成的所有下载直链!!!"
+        android:onClick="showTianyi"/>
+
+    <Button android:id="@+id/qh360"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="点击查看 360 生成的所有下载直链!!!"
+        android:textColor="#FF0000"
+        android:onClick="showQh360"/>
+
+
+    <Button android:id="@+id/baidu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="#FF0000"
+        android:text="点击查看 baidu 生成的所有下载直链!!!"
+        android:onClick="showBaidu"/>
+
+</LinearLayout>

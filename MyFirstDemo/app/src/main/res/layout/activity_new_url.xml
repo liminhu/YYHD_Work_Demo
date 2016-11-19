@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.my.hu.postdata.NewUrlActivity">
+
+    <Button android:id="@+id/tianyi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Click me test 天翼 生成所有的直链!!!"
+        android:onClick="saveTianyi"/>
+
+
+    <Button android:id="@+id/qh360"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Click me test 360 生成所有的直链!!!"
+        android:onClick="saveQh360"/>
+
+
+    <Button android:id="@+id/baidu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Click me test baidu 生成所有的直链!!!"
+        android:onClick="saveBaidu"/>
+
+
+    <Button android:id="@+id/test_data_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="测试查看所有直接!!!"
+        android:onClick="showAllLinks"/>
+
+</LinearLayout>
