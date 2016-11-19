@@ -1,0 +1,19 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gameassist.plugin.baiduyun"
+    android:versionCode="1"
+    android:versionName="1.0" >
+    <uses-sdk
+        android:minSdkVersion="5"
+        android:targetSdkVersion="17" />
+
+    <application
+        android:allowBackup="false"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:label="PluginDemo" >
+        <meta-data android:name="Entry" android:value="com.gameassist.plugin.bob.PluginEntry" />
+        <meta-data android:name="Target0" android:value="com.baidu.netdisk" />
+        <meta-data android:name="Version0" android:value="*" />
+
+    </application>
+
+</manifest>
