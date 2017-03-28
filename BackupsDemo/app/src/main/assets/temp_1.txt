@@ -1,0 +1,10 @@
+<?xml version="1.0.0" encoding="utf-8"?>
+<plugins>
+
+    <plugin
+        name="standard"
+        class="com.idsky.android.standard.StandardPlugin"
+        description="运营商规范模块"
+        version="1.0.0" />
+
+</plugins>
