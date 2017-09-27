@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="pluginame">红牛机器人</string>
+    <string name="insturct_type_0">1. 标庄</string>
+    <string name="insturct_type_6">2. 续庄</string>
+    <string name="insturct_type_7">3. 下庄</string>
+    <string name="insturct_type_login">4. 登录 </string>
+    <string name="insturct_type_login_out">5. 登出 </string>
+
+
+
+    <string name="login">登陆</string>
+    <string name="cancel">关闭</string>
+
+    <!--   <string name="insturct_type">4. 重连机器人</string>-->
+    <!--   <string name="insturct_type_7">3. 测试发文字</string>
+       <string name="insturct_type">4. 测试发表情</string>-->
+</resources>
+
+    <!--
+
+        1.标庄  -&#45;&#45;  指令： 包含人物id, 称呼, 群号，只由管理员： 指令 &#45;&#45;， {"insturct_type": 0, "code": stb,}
+
+        2.用户标庄 -&#45;&#45;  {"insturct_type": 1, "code": q40 , "user_info":{"id": "", "nick_name":"", "group_id"}}
+
+        3.用户的数字  &#45;&#45;&#45;&#45; 下注指令{"insturct_type": 3, "code": 11 , "user_info":{"id": "", "nick_name":"", "group_id"}}
+
+        4。有红包的指令，{"insturct_type": 4, "code": srp,}
+
+        5.开始抢 {"insturct_type": 5, "code": "","time": }
+
+        6.包抢完指令，每个人的金额 {"insturct_type": 6, "code": "","time": "", "money_info":[{"id": "", "nick_name":"", "group_id":, "amount": 100},{}]}
+
+        7.续庄 {"insturct_type": 7, "code": stb,group_id}
+
+        8.下庄指令{"insturct_type": 7, "code": stb,group_id}
+    -->

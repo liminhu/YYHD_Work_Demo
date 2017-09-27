@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="/Users/hulimin/my-git/Plugins2017S2/WeChatRobot/dep/jni/src/main/assets"/><source path="/Users/hulimin/my-git/Plugins2017S2/WeChatRobot/dep/jni/build/generated/assets/shaders/release"/></dataSet><dataSet config="release"><source path="/Users/hulimin/my-git/Plugins2017S2/WeChatRobot/dep/jni/src/release/assets"/></dataSet></merger>
