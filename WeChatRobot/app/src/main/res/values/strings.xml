@@ -8,7 +8,7 @@
     <string name="insturct_type_login">4. 登录 </string>
     <string name="insturct_type_login_out">5. 登出 </string>
 
-
+    <string name="set_default_rule">设置规则</string>
 
     <string name="login">登陆</string>
     <string name="cancel">关闭</string>

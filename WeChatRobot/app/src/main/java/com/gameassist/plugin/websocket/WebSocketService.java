@@ -17,6 +17,7 @@ import com.gameassist.plugin.bean.InstructionsBean;
 import com.gameassist.plugin.common.UrlManager;
 import com.gameassist.plugin.mm.robot.PluginEntry;
 import com.gameassist.plugin.utils.MyLog;
+import com.gameassist.plugin.utils.TestUtils;
 
 import de.tavendo.autobahn.WebSocketConnection;
 import de.tavendo.autobahn.WebSocketHandler;
@@ -83,7 +84,11 @@ public class WebSocketService extends Service {
         try{
             options.setMaxMessagePayloadSize(1024*1024*2);
             options.setMaxFramePayloadSize(1024*1024*2);
-            final String webSocketHost= UrlManager.genWebSocketUrl(context, PluginEntry.currentChatRoomName);
+            if(TextUtils.isEmpty(PluginEntry.chatroom_nickname)){
+                handler.sendEmptyMessageDelayed(1, 100);
+                return;
+            }
+            final String webSocketHost= UrlManager.genWebSocketUrl(context, PluginEntry.currentChatRoomName, PluginEntry.chatroom_nickname);
             MyLog.e("%s is "+webSocketConnection.isConnected(), webSocketHost);
             webSocketConnection.connect(webSocketHost, new WebSocketHandler(){
                 //websocket 启动时回调
@@ -139,13 +144,13 @@ public class WebSocketService extends Service {
 
 
 
-    public static void restartConnectionWebSocket(){
+    public static void restartConnectionWebSocket(int index){
         MyLog.e("重连--- "+TAG+"\twebSocketConnet");
         if(isClosed==true){
             webSocketConnection=null;
             webSocketConnet();
         }
-        handler.sendEmptyMessageDelayed(1, 500);   //延时
+        handler.sendEmptyMessageDelayed(index, 1000);   //延时
     }
 
     public static void webSocketConnet(){

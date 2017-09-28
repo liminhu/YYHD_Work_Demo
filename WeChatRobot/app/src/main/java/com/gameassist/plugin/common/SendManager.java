@@ -31,7 +31,7 @@ import java.io.InputStream;
  * Created by hulimin on 2017/9/19.
  */
 
-public class WebSocketMessage {
+public class SendManager {
     public static void onBack() {
         // TODO: 2017/9/26 不能放主线程中
         new Thread() {
@@ -55,7 +55,7 @@ public class WebSocketMessage {
         final Button sendButton = (Button) ViewUtils.getSendButton(topViewGp1);
         try {
             if (editText != null && sendButton != null) {
-                MyLog.e("editText -- id:" + editText.getId());
+                //MyLog.e("editText -- id:" + editText.getId());
                 editText.post(new Runnable() {
                     @Override
                     public void run() {
@@ -114,10 +114,9 @@ public class WebSocketMessage {
                     edit.setText("");
                     View testdcimButton = ViewUtils.getImgViewByViewId(topViewGp);
                     if (testdcimButton == null) {
-                        LinearLayout linearLayoutImg = (LinearLayout) ViewUtils.getLinearLayoutIma(topViewGp);
+                        LinearLayout linearLayoutImg = (LinearLayout) ViewUtils.getLinearLayoutIma(edit);
                         ClickEventUtils.touchClick(linearLayoutImg);
                         MyLog.e("正在查找隐藏相册框。。。");  //这个地方失败得重试
-
                     }
                     handler.postDelayed(new Runnable() {
                         @Override
@@ -155,7 +154,8 @@ public class WebSocketMessage {
         MyLog.e("正在打开相册 --case 212:" + currentActivity);
         View topView = currentActivity.getWindow().getDecorView();
         final ViewGroup topViewGp = (ViewGroup) topView;
-        View testView = ViewUtils.getLinearLayoutIma(topViewGp, 2131755517);
+        View testView_child = ViewUtils.getMMFlipperDCIM(topViewGp);   //ViewUtils.getLinearLayoutIma(topViewGp, 2131755517);
+        View testView=(View) testView_child.getParent();
         if (testView != null) {
             // ViewUtils.printfView((ViewGroup) testView);
             float x = testView.getWidth() / 8;
@@ -186,7 +186,7 @@ public class WebSocketMessage {
         MyLog.e("默认选择相册第一张图 --case 213:" + PluginEntry.currentActivity);
         View topView1 = PluginEntry.currentActivity.getWindow().getDecorView();
         final ViewGroup topViewGp1 = (ViewGroup) topView1;
-        View testView1 = ViewUtils.getLinearLayoutIma(topViewGp1, 2131759452); //
+        View testView1 = ViewUtils.getDefaultGridView(topViewGp1);   //ViewUtils.getLinearLayoutIma(topViewGp1, 2131759452); //
         if (testView1 != null) {
             MyLog.e("hook_iv_111:" + testView1.getClass().getName() + "\t" + testView1.toString() + "id:_p:" + testView1.getId());
             GridView gv = (GridView) testView1;

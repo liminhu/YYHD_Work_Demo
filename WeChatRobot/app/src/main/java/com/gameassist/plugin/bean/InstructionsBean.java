@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  * Created by hulimin on 2017/9/8.
  */
 
-public class InstructionsBean extends WalletLuckyMoneyDetail {
+public class InstructionsBean {
     private static final String[] qSet = {"q40", "q60", "q80", "q100", "q120", "q140", "q160", "q180", "q200", "q300", "q400"};
 
 
@@ -155,6 +155,16 @@ public class InstructionsBean extends WalletLuckyMoneyDetail {
     }
 
 
+    public static  final  String   KEY_SENDID="key_sendid";
+    private String   key_sendid;
+
+    public String getKey_sendid() {
+        return key_sendid;
+    }
+
+    public void setKey_sendid(String key_sendid) {
+        this.key_sendid = key_sendid;
+    }
 
     public String genSendInstructionJsonString(){
         JSONObject js=new JSONObject();

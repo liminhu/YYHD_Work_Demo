@@ -21,7 +21,7 @@ import com.gameassist.plugin.websocket.WebSocketService;
 public class PluginVIew extends FrameLayout implements View.OnClickListener {
     private Context context;
     private Handler handler;
-    private TextView tv_insturct_0, tv_insturct_6, tv_insturct_7, tv_insturct_login, tv_login_out;
+    private TextView tv_insturct_0, tv_insturct_6, tv_insturct_7, tv_insturct_login, tv_login_out, tv_set_rule;
 
 
     public PluginVIew(Context context, Handler handler) {
@@ -51,6 +51,9 @@ public class PluginVIew extends FrameLayout implements View.OnClickListener {
         //登出
         tv_login_out=(TextView)findViewById(R.id.insturct_login_out);
         tv_login_out.setOnClickListener(this);
+
+        tv_set_rule=(TextView)findViewById(R.id.set_default_rule);
+        tv_set_rule.setOnClickListener(this);
     }
 
 
@@ -89,6 +92,10 @@ public class PluginVIew extends FrameLayout implements View.OnClickListener {
             case R.id.insturct_login:  //登录
                // handler.sendEmptyMessage(2006);
                 DialogUtils.showLoginDialog(getContext(), PluginEntry.currentActivity);
+                break;
+
+            case R.id.set_default_rule:   //设置规则
+                handler.sendEmptyMessage(2);
                 break;
         }
     }

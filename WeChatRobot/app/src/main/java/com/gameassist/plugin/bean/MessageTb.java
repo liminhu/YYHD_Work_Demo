@@ -9,10 +9,7 @@ import java.util.Date;
  * Created by hulimin on 2017/9/5.
  */
 
-public class MessageTb extends InstructionsBean{
-   // private static  final  String INSTRUCT_TYPE="instruct_type";
-
-
+public class MessageTb{
     public static   String  _msgId="msgId";
     public static   String  _msgSvrId="msgSvrId";
     public static   String  _type="type";
@@ -40,8 +37,10 @@ public class MessageTb extends InstructionsBean{
 
     public static   String  _msgSeq="msgSeq";
     public static   String  _flag="flag";
-/*
-    private int instruct_type;
+
+    public static  String _instruct_type="instruct_type";
+
+    private   int instruct_type;
 
     public int getInstruct_type() {
         return instruct_type;
@@ -49,7 +48,7 @@ public class MessageTb extends InstructionsBean{
 
     public void setInstruct_type(int instruct_type) {
         this.instruct_type = instruct_type;
-    }*/
+    }
 
     public String genJSONData(){
         JSONObject js=new JSONObject();
@@ -85,7 +84,6 @@ public class MessageTb extends InstructionsBean{
             js.put(_msgSeq, msgSeq);
             js.put(_flag, flag);
 
-          //  js.put(INSTRUCT_TYPE, getInstruct_type());
 
         }catch (Exception e){
             return  "";

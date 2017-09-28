@@ -16,16 +16,18 @@ import com.gameassist.plugin.Plugin;
 import com.gameassist.plugin.bean.ChatroomTb;
 import com.gameassist.plugin.bean.InstructionsBean;
 import com.gameassist.plugin.bean.MessageTb;
+import com.gameassist.plugin.bean.RcontactTb;
 import com.gameassist.plugin.bean.SendMessage;
 import com.gameassist.plugin.common.CommonData;
 import com.gameassist.plugin.common.DateBaseMonitor;
 import com.gameassist.plugin.common.InitDataManager;
-import com.gameassist.plugin.common.WebSocketMessage;
+import com.gameassist.plugin.common.SendManager;
 import com.gameassist.plugin.hongbao.HongBaoView;
 import com.gameassist.plugin.hongbao.WalletLuckyMoneyDetail;
 import com.gameassist.plugin.utils.DialogUtils;
 import com.gameassist.plugin.utils.MyLog;
 import com.gameassist.plugin.utils.ProcessUtils;
+import com.gameassist.plugin.utils.StringUtils;
 import com.gameassist.plugin.utils.TestUtils;
 import com.gameassist.plugin.websocket.WebSocketService;
 
@@ -53,15 +55,17 @@ public class PluginEntry extends Plugin {
     private static Long currentTime = -1L;       //当前时间
     private static DateBaseMonitor dateBaseMonitor;   //数据库操作
     private static ChatroomTb chatroomTb;  //当前群信息
+    public static String chatroom_nickname;  //群昵称
     public boolean is_monitor = false;  //是否轮询数据库
 
     public static int period = -1;
     public static List<SendMessage> sendMessages = new ArrayList<>();  //需要转发的消息
 
+    private static int hongbao_state=-1; //红包状态，0：表示开始， 1表示完成
 
     private View pluginView;
     private static String key_sendid;
-    private static Intent websecketServiceIntent = null;
+    private  Intent websecketServiceIntent = null;
     private  boolean isMainProce;
     private  SendMessageThread sendThread;
     private Handler mainHandler = new Handler(Looper.getMainLooper()) {
@@ -99,6 +103,11 @@ public class PluginEntry extends Plugin {
                     if (currentChatRoomName == null || !currentChatRoomName.contains("@chatroom")) {
                         Toast.makeText(getTargetApplication(), "请先进入聊天群界面操作。。。", Toast.LENGTH_SHORT).show();
                     }else{
+                        if(dateBaseMonitor==null){
+                            dateBaseMonitor = new DateBaseMonitor(getTargetApplication());
+                        }
+                        RcontactTb rcontactTb=RcontactTb.getChatroomNickNameByUserNameFromDb(currentChatRoomName, dateBaseMonitor);
+                        chatroom_nickname=rcontactTb.nickname;
                         if (!HAVE_INIT_WEBSECKET_FLAG) {
                             MyLog.e("case 1: 获取当前群号 。。。 period ---   " + period + "\t" + currentChatRoomName);
                             if (websecketServiceIntent == null  && isMainProce) {
@@ -112,7 +121,7 @@ public class PluginEntry extends Plugin {
                                 HAVE_INIT_WEBSECKET_FLAG = true;
                             }
                         }
-                        handler.sendEmptyMessageDelayed(1, 1500);
+                        handler.sendEmptyMessageDelayed(1, 2500);
                     }
                     break;
 
@@ -120,9 +129,8 @@ public class PluginEntry extends Plugin {
                 case 1:   //获取当前群号
                     if (WebSocketService.isClosed) {
                         //Toast.makeText(context, "WebSocketService  is close ! 请退出重试。。。 ", Toast.LENGTH_SHORT).show();
-                        DialogUtils.showWebSocketDialog(currentActivity);
+                        DialogUtils.showWebSocketDialog(currentActivity, 1);
                     }else if(is_monitor==false){
-                        dateBaseMonitor = new DateBaseMonitor(getTargetApplication());
                         //获取当前的群聊相关信息
                         chatroomTb = dateBaseMonitor.getChatRoomInfoByUserName(DateBaseMonitor.CHATROOM_TB_NAME, currentChatRoomName);
                         chatroomTb.updateMemberMap();
@@ -132,10 +140,47 @@ public class PluginEntry extends Plugin {
                         MyLog.e("case 200  ----  开始第一条指令 -- 更新当前群用户信息");
                         String insturct_0 = InstructionsBean.genFirstBeginInstruct(chatroomTb, 0, "stb", currentChatRoomName);
                         WebSocketService.sendMessage(insturct_0);
+                    }else {
+                        Toast.makeText(context, "已经在标庄期间。。。 ", Toast.LENGTH_SHORT).show();
                     }
                     break;
 
 
+                //设置配置
+                case 2:
+                    if(websecketServiceIntent!=null){
+                        WebSocketService.closeWebsocket();
+                        getContext().stopService(websecketServiceIntent);
+                        websecketServiceIntent=null;
+                    }
+                    currentChatRoomName = InitDataManager.getCurrentChatRoomNameByActivity(currentActivity);
+                    if (currentChatRoomName == null || !currentChatRoomName.contains("@chatroom")) {
+                        Toast.makeText(getTargetApplication(), "请先进入聊天群界面操作。。。", Toast.LENGTH_SHORT).show();
+                    }else{
+                        if(dateBaseMonitor==null){
+                            dateBaseMonitor = new DateBaseMonitor(getTargetApplication());
+                        }
+                        RcontactTb rcontactTb=RcontactTb.getChatroomNickNameByUserNameFromDb(currentChatRoomName, dateBaseMonitor);
+                        MyLog.e("username:%s, nickname:%s",rcontactTb.username, rcontactTb.nickname);
+                        chatroom_nickname=rcontactTb.nickname;
+                        //开始websecket
+                        WebSocketService.handler = handler;
+                        WebSocketService.context = getTargetApplication();
+                        websecketServiceIntent = new Intent(getContext(), WebSocketService.class);
+                        getContext().startService(websecketServiceIntent);
+                        //开始连接
+                        WebSocketService.webSocketConnet();
+                        HAVE_INIT_WEBSECKET_FLAG = true;
+                        handler.sendEmptyMessageDelayed(3, 2500);
+                    }
+                    break;
+                case 3:
+                    if (WebSocketService.isClosed) {
+                        DialogUtils.showWebSocketDialog(currentActivity, 3);
+                    }else{
+                        Toast.makeText(getTargetApplication(), "已连上服务器，请到后台更新配置。。。", Toast.LENGTH_SHORT).show();
+                    }
+                    break;
 
 
                 //发送指令
@@ -158,19 +203,6 @@ public class PluginEntry extends Plugin {
                             code = temp_name[1];
                         }
                     }
-
-
-          /*          if (bean5.getType() == 1) {
-                        if (bean5.getContent().contains(":\n")) {
-                            String[] temp_name = bean5.getContent().split(":\n");
-                            if (temp_name.length == 2 && chatroomTb.getMap().containsKey(temp_name[0])) {
-                                user_name = temp_name[0];
-                                nick_name = chatroomTb.getMap().get(user_name);
-                                code = temp_name[1];
-                            }
-                        }
-                    }
-                    */
 
                     InstructionsBean instructionsBean = new InstructionsBean(bean5.getInstruct_type(), code, currentChatRoomName, user_name, nick_name, bean5.getCreateTime());
                     if (bean5.getType() == 436207665) {   //红包类型
@@ -241,29 +273,16 @@ public class PluginEntry extends Plugin {
                     break;
 
 
-                case 209:
-                    MyLog.e(" getFirstSendMessage()  " + "case 209: 更换activity  -- period:" + period + "\t" + sendMessages.toString());
-                    if (!currentActivity.getClass().getName().contains(CommonData.FIRST_MAIN_ACTIVITY)) {
-                        Intent intent = new Intent();
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        intent.setClassName(getTargetApplication().getPackageName(), "com.tencent.mm.ui.LauncherUI");
-                        getTargetApplication().startActivity(intent);
-                        // WebSocketMessage.onBack();
-                        // handler.sendEmptyMessageDelayed(208, 2500);
-                    }
-                    break;
-
                 //默认选择相册第一张图
                 case 213:
                     MyLog.e(" 默认选择相册第一张图 case 203: 更换activity  -- period:" + period + "\t" + sendMessages.toString());
-                    WebSocketMessage.chooseDefaultGIF(handler, 0);
-                  //  handler.sendEmptyMessageDelayed(214, 500);
+                    SendManager.chooseDefaultGIF(handler, 0);
                     break;
 
 
                 case 214:
                     MyLog.e("发送图 --case 214:" + currentActivity);
-                    WebSocketMessage.sendLastGIF(handler, 0);
+                    SendManager.sendLastGIF(handler, 0);
                     break;
 
                 case 16:
@@ -281,8 +300,9 @@ public class PluginEntry extends Plugin {
                                     hongbao.setCode("clrp");
                                     String js = hongbao.genHongBaoInsJsonStr(list);
                                     MyLog.e(js);
+                                    hongbao_state=1;
                                     WebSocketService.sendMessage(js);
-                                    WebSocketMessage.onBack();
+                                    SendManager.onBack();
                                 }
                             }
                         }
@@ -317,7 +337,6 @@ public class PluginEntry extends Plugin {
                     final ViewGroup topViewGp2 = (ViewGroup) topView2;
                     HongBaoView.getHongBaoView(topViewGp2);
                     break;
-
             }
         }
     };
@@ -336,7 +355,7 @@ public class PluginEntry extends Plugin {
         public void run() {
             while (true) {
                 if (is_monitor && isMainProce && InitDataManager.isMainActivity(currentActivity)) {
-                    if(period==4){
+                    if(period==4 && hongbao_state==0){
                         handler.sendEmptyMessage(2006);   //自动打开红包
                     }
                     sendMyMessage();
@@ -366,7 +385,7 @@ public class PluginEntry extends Plugin {
                         MyLog.e("文字正在处理。。。 " + send.getMsg());
                         send.setSendState(1);
                         send.setSendTime(0);
-                        WebSocketMessage.sendTextMessage(send.getMsg(), handler, 0);
+                        SendManager.sendTextMessage(send.getMsg(), handler, 0);
                     }else if(send.getSendTime() > 5){
                         send.setSendState(0);  //重新发送
                     }else{
@@ -376,7 +395,7 @@ public class PluginEntry extends Plugin {
                     if (send.getSendState() == 0) {
                         MyLog.e("表情正在处理。。。 " + send.getMsg());
                         send.setSendState(1);
-                        WebSocketMessage.sendEmojiMessageByFileMd5(getContext(), handler, send.getMsg(), 0);
+                        SendManager.sendEmojiMessageByFileMd5(getContext(), handler, send.getMsg(), 0);
                     }else if(send.getSendTime() > 10){
                         send.setSendState(0);  //重新发送
                     }else{
@@ -438,6 +457,7 @@ public class PluginEntry extends Plugin {
                             message.obj = mess;
                             mess.setInstruct_type(3);
                             handler.sendMessage(message);
+                            hongbao_state=0; //开始有包
                         }
                     }
 
@@ -455,6 +475,8 @@ public class PluginEntry extends Plugin {
     // TODO: 2017/9/22 注意不同的进程都会初始化插件入口一次，注意不同进程的数据共享
     @Override
     public boolean OnPluginCreate() {
+        StringUtils.getImei(getContext());
+
         instance = this;
         isMainProce=ProcessUtils.isMainProcess(getContext());
         registerActivityCallback(new ActivityCallback() {
@@ -477,12 +499,12 @@ public class PluginEntry extends Plugin {
                // MyLog.e("name: +"+proceName+"\tperiod +\t" + period + "---\tOnActivityResume -- " + acName);
 
                 if(acName.contains("com.tencent.mm.plugin.luckymoney.ui.En_fba4b94f")){
-                    if(period==4){
+                    if(period==4 && hongbao_state==0){
                         handler.sendEmptyMessageDelayed(2007,1000);
                     }
                 }else if (acName.contains("com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyDetailUI")) {  //红包
-                    if(period==4){
-                        handler.sendEmptyMessageDelayed(16, 2000);
+                    if(period==4 && hongbao_state==0){
+                        handler.sendEmptyMessageDelayed(16, 1000);
                     }
                 } else if (acName.contains("com.tencent.mm.plugin.gallery.ui.AlbumPreviewUI")) {
                     handler.sendEmptyMessageDelayed(213,500);

@@ -6,10 +6,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.gameassist.plugin.common.WebSocketMessage;
+import com.gameassist.plugin.common.SendManager;
 import com.gameassist.plugin.utils.ClickEventUtils;
 import com.gameassist.plugin.utils.MyLog;
-import com.gameassist.plugin.utils.ViewUtils;
 
 
 /**
@@ -47,7 +46,7 @@ public class HongBaoView {
                 ClickEventUtils.touchClick((ViewGroup)lucky_view.getParent());
             }else {
                 MyLog.e("is null SEE_ALL_LUCKY:\t"+SEE_ALL_LUCKY);
-                WebSocketMessage.onBack();
+                SendManager.onBack();
             }
         }else{
             MyLog.e(time+ "  ---  is null HONG_BAO_IS_HAVE:\t"+HONG_BAO_IS_HAVE);
@@ -59,7 +58,7 @@ public class HongBaoView {
                     }
                 }, 1500*time);
             }else {
-                WebSocketMessage.onBack();
+                SendManager.onBack();
             }
         }
     }

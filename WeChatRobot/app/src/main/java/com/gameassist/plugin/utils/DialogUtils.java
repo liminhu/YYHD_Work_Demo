@@ -21,7 +21,7 @@ import static android.view.View.inflate;
 
 public class DialogUtils {
 
-    public static void showWebSocketDialog(Activity currentActivity) {
+    public static void showWebSocketDialog(Activity currentActivity, final int index) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
         builder.setTitle("连接提示");
         builder.setMessage("当前连接服务器失败， 请是否重试？ ");
@@ -29,7 +29,7 @@ public class DialogUtils {
         builder.setPositiveButton("是", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                WebSocketService.restartConnectionWebSocket();
+                WebSocketService.restartConnectionWebSocket(index);
                 alertDialog.dismiss();
             }
         }).setNegativeButton("否", new DialogInterface.OnClickListener() {

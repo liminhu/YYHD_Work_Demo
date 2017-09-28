@@ -2,9 +2,11 @@ package com.gameassist.plugin.common;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 
 import com.gameassist.plugin.bean.ChatroomTb;
 import com.gameassist.plugin.bean.MessageTb;
+import com.gameassist.plugin.bean.RcontactTb;
 import com.gameassist.plugin.utils.MyLog;
 
 import java.lang.reflect.Method;
@@ -139,6 +141,40 @@ public class DateBaseMonitor {
          }
          return chatroomTb;
      }
+
+
+
+
+   //得到群昵称
+    public RcontactTb getChatroomNickNameByUserNameFromDb(String tableName, String username) {
+        String sqlQuery = "select * from " + tableName + " where username='" + username + "' ";
+        MyLog.e(sqlQuery);
+        RcontactTb rcontactTb = null;
+        if (sqliteClass == null) {
+            sqliteClass = getSQLiteDatabaseClass();
+        }
+
+        try {
+            if (sqliteClass != null) {
+                Method query = sqliteClass.getClass().getDeclaredMethod("rawQuery", String.class, String[].class);
+                Cursor cur = (Cursor) query.invoke(sqliteClass, sqlQuery, null);
+                if (cur.moveToNext()) {
+                    rcontactTb=new RcontactTb();
+                    rcontactTb.username=username;
+                    rcontactTb.nickname=cur.getString(cur.getColumnIndex(RcontactTb.NICKNAME));
+                    if(!TextUtils.isEmpty(rcontactTb.nickname)){
+                        MyLog.e("username : %s,  nick name  ---  "+rcontactTb.nickname, username);
+                    }
+                }
+                cur.close();
+                return rcontactTb;
+            }
+        } catch (Exception e) {
+           MyLog.e(e.getMessage());
+        }
+        return null;
+    }
+
 
 
 }

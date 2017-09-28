@@ -47,7 +47,7 @@ public class UrlManager {
 
 
 
-    public static String genWebSocketUrl(Context context, String groupId){
+    public static String genWebSocketUrl(Context context, String groupId, String groupName){
         String protocol= WS_PROTOCOL;
         TokenBean tokenBean= SharedPreferenceUtils.getTokenFromSharedPre(context);
         StringBuilder sb=new StringBuilder();
@@ -60,6 +60,8 @@ public class UrlManager {
         sb.append(tokenBean.token);
         sb.append("&group_id=");
         sb.append(groupId);
+        sb.append("&group_name=");  //测试
+        sb.append(groupName);
         MyLog.e("genWebSocketUrl --- "+sb.toString());
         return  sb.toString();
     }

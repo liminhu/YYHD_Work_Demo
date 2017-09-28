@@ -1,6 +1,9 @@
 package com.gameassist.plugin.bean;
 
 import android.text.TextUtils;
+import android.util.Log;
+
+import com.gameassist.plugin.utils.MyLog;
 
 import java.util.HashMap;
 import java.util.Iterator;
@@ -30,6 +33,8 @@ public class ChatroomTb {
 
     public  void updateMemberMap(){
          map.clear();
+        MyLog.e(MEMBER_LIST+":\t"+member_list);
+        MyLog.e(DISPLAY_NAME+":\t"+display_name);
          if(!TextUtils.isEmpty(member_list) && !TextUtils.isEmpty(display_name)){
              String[] member=member_list.split(";");  //wxid_kw5j68dk4wy022;wxid_83kmdbom0g9a22
              String[] display=display_name.split("、"); //lmhu、胡利民
