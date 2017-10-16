@@ -6,10 +6,11 @@ package com.gameassist.plugin.bean;
 
 public class SendMessage {
 
-    public SendMessage(String msg, int type, int sendState) {
+    public SendMessage(String msg, int type, int sendState, int period) {
         this.msg = msg;
         this.type = type;
         this.sendState = sendState;
+        this.period=period;
     }
 
 
@@ -18,6 +19,16 @@ public class SendMessage {
     private int type;
     private int sendState;  //发送状态，0，开始发送，1发送中，2发送完成
 
+    private int period;
+
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
+    }
 
     public String getMsg() {
         return msg;

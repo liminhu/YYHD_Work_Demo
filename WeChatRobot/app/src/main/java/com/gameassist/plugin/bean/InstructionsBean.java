@@ -140,7 +140,7 @@ public class InstructionsBean {
             for(int i=0; i<list.size(); i++){
                 JSONObject money=new JSONObject();
                 money.put(USER_NAME, list.get(i).getReceive_userName());
-                money.put(NICK_NAME, list.get(i).getReceive_userName());
+                money.put(NICK_NAME, list.get(i).getNick_name());  //更正nick_name
                 money.put(MONEY_AMOUNT, list.get(i).getReceive_money_amount());
                 money.put(TIME, list.get(i).getReceive_time());
                 array.put(money);
@@ -165,6 +165,53 @@ public class InstructionsBean {
     public void setKey_sendid(String key_sendid) {
         this.key_sendid = key_sendid;
     }
+
+    public String genSendInstructionJsonString(ChatroomTb chatroomTb){
+        JSONObject js=new JSONObject();
+        try {
+            js.put(INSTRUCT_TYPE, instruct_type);
+            js.put(CODE, code);
+            js.put(GROUP_ID, group_id);
+
+            if(instruct_type==6 || instruct_type==7){
+                JSONArray array=new JSONArray();
+                Map<String, String> map=chatroomTb.getMap();
+                for (String key : map.keySet()) {
+                    String value =map.get(key);
+                    JSONObject js_name=new JSONObject();
+                    js_name.put(USER_NAME, key);
+                    js_name.put(NICK_NAME, value);
+                    array.put(js_name);
+                }
+                js.put(USER_INFO, array);
+
+                return js.toString();  //续庄与下庄不带时间
+            }
+
+            js.put(CURRENT_TIME, current_time);
+
+            if(instruct_type==4){
+                return js.toString();  //不带用户信息
+            }
+
+            if(getInstruct_type() == 3){
+                js.put(KEY_SENDID, getKey_sendid());
+            }
+
+            JSONObject user=new JSONObject();
+            user.put(USER_NAME, user_name);
+            user.put(NICK_NAME, nick_name);
+            js.put(USER_INFO, user);
+
+        }catch (Exception e){
+
+        }
+        return js.toString();
+    }
+
+
+
+
 
     public String genSendInstructionJsonString(){
         JSONObject js=new JSONObject();
@@ -197,6 +244,8 @@ public class InstructionsBean {
         }
         return js.toString();
     }
+
+
 
     public InstructionsBean(long current_time) {
         this.current_time = current_time;

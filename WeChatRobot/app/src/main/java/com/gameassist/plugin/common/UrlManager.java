@@ -1,10 +1,12 @@
 package com.gameassist.plugin.common;
 
 import android.content.Context;
+import android.util.Base64;
 
 import com.gameassist.plugin.bean.TokenBean;
 import com.gameassist.plugin.utils.MyLog;
 import com.gameassist.plugin.utils.SharedPreferenceUtils;
+import com.gameassist.plugin.utils.StringUtils;
 
 /**
  * Created by hulimin on 2017/9/17.
@@ -12,7 +14,7 @@ import com.gameassist.plugin.utils.SharedPreferenceUtils;
 
 public class UrlManager {
 
-    public static  final  String CURRENT_IP="192.168.1.54:8887";
+    public static    String CURRENT_IP="192.168.1.215:8887";  //redbull.ggdawanjia.com
     public static final  String LOGIN_URL="/redbull/app/login";
     public static final  String LOGIN_OUT_URL="/redbull/app/logout";
 
@@ -54,16 +56,16 @@ public class UrlManager {
         sb.append(protocol);
         sb.append("://");
         sb.append(CURRENT_IP);
-        sb.append("?user_name=");
-        sb.append(tokenBean.username);
-        sb.append("&token=");
+      //  sb.append("?user_name=");
+      //  sb.append(tokenBean.username);
+        sb.append("?token=");
         sb.append(tokenBean.token);
         sb.append("&group_id=");
         sb.append(groupId);
         sb.append("&group_name=");  //测试
-        sb.append(groupName);
+        sb.append(StringUtils.byteArrayToHexString(groupName.getBytes())); //转成hex string 以免乱码
         MyLog.e("genWebSocketUrl --- "+sb.toString());
-        return  sb.toString();
+        return   sb.toString();
     }
 
 

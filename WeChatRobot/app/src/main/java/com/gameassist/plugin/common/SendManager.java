@@ -94,7 +94,7 @@ public class SendManager {
             FileUtils.copyFile(is, data.getAbsolutePath());
             context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(data)));  //更新系统图库的方法
             MyLog.e("发送表情 --" + MyLog.getFormatrerTime(System.currentTimeMillis()));
-            Thread.sleep(100);
+           // Thread.sleep(100);
 
             View topView = currentActivity.getWindow().getDecorView();
             final ViewGroup topViewGp = (ViewGroup) topView;
@@ -143,7 +143,7 @@ public class SendManager {
                 }
             });
             return false;
-        } catch (InterruptedException e) {
+        } catch (Exception e) {
         }
         return true;
     }

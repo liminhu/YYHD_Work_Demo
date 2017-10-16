@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gameassist.plugin.common.LoginManager;
+import com.gameassist.plugin.mm.robot.BuildConfig;
 import com.gameassist.plugin.mm.robot.R;
 import com.gameassist.plugin.websocket.WebSocketService;
 
@@ -45,7 +46,7 @@ public class DialogUtils {
 
 
 
-    private static String login_password="12345678", login_acccount="hulimin";
+    private static String login_password="", login_acccount="";
 
     public static void showLoginDialog(final Context context, Activity currentActivity) {
         AlertDialog.Builder builder = new AlertDialog.Builder(currentActivity);
@@ -53,6 +54,11 @@ public class DialogUtils {
         final EditText et_login_password = ((EditText) v.findViewById(R.id.login_password));
         final EditText et_login_account = ((EditText) v.findViewById(R.id.login_account_new));
 
+
+        if(BuildConfig.DEBUG){
+            login_acccount="hulimin";
+            login_password="12345678";
+        }
 
         if (!TextUtils.isEmpty(login_acccount)) {
             et_login_account.setText(login_acccount);
@@ -75,7 +81,7 @@ public class DialogUtils {
                 if(!TextUtils.isEmpty(login_acccount) && !TextUtils.isEmpty(login_password)){
                     LoginManager login=new LoginManager(login_acccount, login_password,context);
                     login.loginByAsyncHttpPost();
-                    Toast.makeText(context, "login", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(context, "登录成功！。。。", Toast.LENGTH_SHORT).show();
                     alertDialog.dismiss();
                 }else{
                     Toast.makeText(context, "账号或密码为空！！！", Toast.LENGTH_SHORT).show();
@@ -85,7 +91,7 @@ public class DialogUtils {
         v.findViewById(R.id.save_btn_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context, "cancel", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "取消", Toast.LENGTH_SHORT).show();
                 alertDialog.dismiss();
             }
         });

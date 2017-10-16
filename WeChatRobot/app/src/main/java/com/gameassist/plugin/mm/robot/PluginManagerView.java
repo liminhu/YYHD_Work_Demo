@@ -75,7 +75,7 @@ public class PluginManagerView extends FrameLayout implements View.OnTouchListen
             wm.removeView(PluginManagerView.this);
             MyLog.e("<onActivityPaused> remove view... %s, %s", activity, PluginManagerView.this);
         } catch (Exception e) {
-            MyLog.e(e, "<onActivityPaused> Exception---" + e.toString());
+          //  MyLog.e(e, "<onActivityPaused> Exception---" + e.toString());
         }
         if (sensorManager != null) {
             sensorManager.unregisterListener(sensorEventListener);
@@ -202,6 +202,8 @@ public class PluginManagerView extends FrameLayout implements View.OnTouchListen
         checkBox = (CheckBox) view.findViewById(R.id.check);
         checkBox.setOnTouchListener(new DragListener());
         frame = (FrameLayout) view.findViewById(R.id.frame);
+        checkBox.setChecked(false);
+        frame.setVisibility(GONE);
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -218,7 +220,7 @@ public class PluginManagerView extends FrameLayout implements View.OnTouchListen
                             frame.addView(newView);
                         }
                     }
-                frame.setVisibility(isChecked ? GONE : VISIBLE);
+                frame.setVisibility(!isChecked ? GONE : VISIBLE);
             }
         });
 

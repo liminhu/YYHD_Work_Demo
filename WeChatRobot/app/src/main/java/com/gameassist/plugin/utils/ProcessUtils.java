@@ -69,6 +69,39 @@ public class ProcessUtils {
 
 
 
+
+
+    public static String getAppVersionName(Context context) {
+        String versionName = "";
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            versionName = pi.versionName;
+            if (versionName == null || versionName.length() <= 0) {
+                return "";
+            }
+        } catch (Exception e) {
+            MyLog.e("VersionInfo --  %s", e.getMessage());
+        }
+        return versionName;
+    }
+
+
+
+    public static int getAppVersionCode(Context context) {
+        int versionCode = -1;
+        try {
+            PackageManager pm = context.getPackageManager();
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            versionCode = pi.versionCode;
+        } catch (Exception e) {
+            MyLog.e("versionCode --  %s", e.getMessage());
+        }
+        return versionCode;
+    }
+
+
+
     public static int getPrecessIdByPackageName(Context context) {
         PackageManager manager = context.getPackageManager();
         try {

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,18 +28,21 @@ import com.gameassist.plugin.hongbao.WalletLuckyMoneyDetail;
 import com.gameassist.plugin.utils.DialogUtils;
 import com.gameassist.plugin.utils.MyLog;
 import com.gameassist.plugin.utils.ProcessUtils;
-import com.gameassist.plugin.utils.StringUtils;
 import com.gameassist.plugin.utils.TestUtils;
 import com.gameassist.plugin.websocket.WebSocketService;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+
+import static android.content.Context.POWER_SERVICE;
 
 /**
  * Created by hulimin on 2017/9/4.
  */
-
+//todo:需要优化：期间指令的交互 --  通知服务器更改期间指令
+//查看微信是怎样生成登录的名字--算法 --- 91c8a5c0e536486eff63cae774335bb2
 public class PluginEntry extends Plugin {
     private static final String LIB_HOOK_PLUGIN = "Robot";
     private static boolean HAVE_INIT_WEBSECKET_FLAG = false;  //websecket 是否初始化
@@ -63,6 +67,7 @@ public class PluginEntry extends Plugin {
 
     private static int hongbao_state=-1; //红包状态，0：表示开始， 1表示完成
 
+    public static int versionCode=-1;
     private View pluginView;
     private static String key_sendid;
     private  Intent websecketServiceIntent = null;
@@ -91,6 +96,8 @@ public class PluginEntry extends Plugin {
         }
     };
 
+    private PowerManager.WakeLock m_wklk;
+
 
     private Handler handler = new Handler() {
         @Override
@@ -108,20 +115,24 @@ public class PluginEntry extends Plugin {
                         }
                         RcontactTb rcontactTb=RcontactTb.getChatroomNickNameByUserNameFromDb(currentChatRoomName, dateBaseMonitor);
                         chatroom_nickname=rcontactTb.nickname;
-                        if (!HAVE_INIT_WEBSECKET_FLAG) {
-                            MyLog.e("case 1: 获取当前群号 。。。 period ---   " + period + "\t" + currentChatRoomName);
-                            if (websecketServiceIntent == null  && isMainProce) {
-                                //开始websecket
-                                WebSocketService.handler = handler;
-                                WebSocketService.context = getTargetApplication();
-                                websecketServiceIntent = new Intent(getContext(), WebSocketService.class);
-                                getContext().startService(websecketServiceIntent);
-                                //开始连接
-                                WebSocketService.webSocketConnet();
-                                HAVE_INIT_WEBSECKET_FLAG = true;
+                        if(!TextUtils.isEmpty(chatroom_nickname)){
+                            if (!HAVE_INIT_WEBSECKET_FLAG) {
+                                MyLog.e("case 1: 获取当前群号 。。。 period ---   " + period + "\t" + currentChatRoomName);
+                                if (websecketServiceIntent == null  && isMainProce) {
+                                    //开始websecket
+                                    WebSocketService.handler = handler;
+                                    WebSocketService.context = getTargetApplication();
+                                    websecketServiceIntent = new Intent(getContext(), WebSocketService.class);
+                                    getContext().startService(websecketServiceIntent);
+                                    //开始连接
+                                    WebSocketService.webSocketConnet();
+                                    HAVE_INIT_WEBSECKET_FLAG = true;
+                                }
                             }
+                            handler.sendEmptyMessageDelayed(1, 3000);
+                        }else {
+                            Toast.makeText(getTargetApplication(), "群的名称为空，请重命名后再操作。。。", Toast.LENGTH_SHORT).show();
                         }
-                        handler.sendEmptyMessageDelayed(1, 2500);
                     }
                     break;
 
@@ -171,7 +182,7 @@ public class PluginEntry extends Plugin {
                         //开始连接
                         WebSocketService.webSocketConnet();
                         HAVE_INIT_WEBSECKET_FLAG = true;
-                        handler.sendEmptyMessageDelayed(3, 2500);
+                        handler.sendEmptyMessageDelayed(3, 3000);
                     }
                     break;
                 case 3:
@@ -187,7 +198,10 @@ public class PluginEntry extends Plugin {
                 case 5:
                     MessageTb bean5 = (MessageTb) msg.obj;
                     MyLog.e("case 5: -- 发送指令" + bean5.genJSONData());
-                    String user_name = chatroomTb.getRoom_owner();
+                    String user_name = RcontactTb.getLoginWeixinUsername(getTargetApplication());
+                    if(TextUtils.isEmpty(user_name)) {
+                        user_name=chatroomTb.getRoom_owner();
+                    }
                     String nick_name = chatroomTb.getMap().get(user_name);
                     String code = bean5.getContent();
                     MyLog.e("case 5:" + code + " user_name : " + user_name + ": time-- " + bean5.getCreateTime());
@@ -227,13 +241,14 @@ public class PluginEntry extends Plugin {
                     InstructionsBean data194 = (InstructionsBean) msg.obj;
                     MyLog.e("msg -- case 194: " + data194.getMsg() );
                     if (data194 != null && !TextUtils.isEmpty(data194.getMsg())) {
-                        SendMessage send = new SendMessage(data194.getMsg(), data194.getMsg_type(), 0);
+                        SendMessage send = new SendMessage(data194.getMsg(), data194.getMsg_type(), 0, data194.getPeriod());
                         sendMessages.add(send);
                         sendThread.sendMyMessage();
                     }
                     break;
 
 
+                //更新期间指令也放到队列中
                 case 201:
                     InstructionsBean bean201 = (InstructionsBean) msg.obj;
                     period = bean201.getPeriod();
@@ -248,7 +263,7 @@ public class PluginEntry extends Plugin {
                         intstruct.setInstruct_type(6);
                         intstruct.setGroup_id(currentChatRoomName);
                         intstruct.setCode("xuz");
-                        String js202 = intstruct.genSendInstructionJsonString();
+                        String js202 = intstruct.genSendInstructionJsonString(chatroomTb);
                         MyLog.e(js202);
                         WebSocketService.sendMessage(js202);
                     } else {
@@ -298,11 +313,11 @@ public class PluginEntry extends Plugin {
                                     hongbao.setInstruct_type(5);
                                     hongbao.setGroup_id(currentChatRoomName);
                                     hongbao.setCode("clrp");
-                                    String js = hongbao.genHongBaoInsJsonStr(list);
+                                    final String js = hongbao.genHongBaoInsJsonStr(list);
                                     MyLog.e(js);
                                     hongbao_state=1;
-                                    WebSocketService.sendMessage(js);
                                     SendManager.onBack();
+                                    WebSocketService.sendMessage(js);
                                 }
                             }
                         }
@@ -310,8 +325,6 @@ public class PluginEntry extends Plugin {
                         MyLog.e("case 16:  ---- " + e.getMessage());
                     }
                     break;
-
-
 
                 default:
                     break;
@@ -374,12 +387,16 @@ public class PluginEntry extends Plugin {
                 return;
             }
             SendMessage send = getFirstSendMessage();
-            if (send.getSendState() == 2) {
+            period=send.getPeriod();
+            if (send.getSendState() == 2  || send.getType()==0) {
+                if(send.getType()==0){
+                    period=send.getPeriod();
+                    MyLog.e("更新期间到：%d", period);
+                }
                 sendMessages.remove(0);
                 sendMyMessage();
-            }
-            if (send != null) {
-                MyLog.e(sendMessages.size()+"\t time 次数: "+send.getSendTime()+"  --  send 正在处理--  "+send.getMsg()+ "\tstates : "+send.getSendState()+ " type :"+send.getType()+" \t "+sendMessages.toString());
+            }else if (send != null) {
+                MyLog.e("消息还有："+sendMessages.size()+"\t 期间：%d, time 次数: "+send.getSendTime()+"  --  send 正在处理--  "+send.getMsg()+ "\tstates : "+send.getSendState()+ " type :"+send.getType()+" \t "+sendMessages.toString() ,period);
                 if (send.getType() == 1) { //文字处理
                     if (send.getSendState() == 0) {
                         MyLog.e("文字正在处理。。。 " + send.getMsg());
@@ -422,7 +439,7 @@ public class PluginEntry extends Plugin {
                         if(!mess.getTalker().equals(currentChatRoomName)){
                             continue;
                         }
-                        MyLog.e(" --- mess = " + mess.genJSONData().toString());
+                        MyLog.e("period: %d --- mess = " + mess.genJSONData().toString(), period);
                         currentTime = mess.getCreateTime();
                         //更改消息队列状态
                         if(send!=null){
@@ -475,10 +492,27 @@ public class PluginEntry extends Plugin {
     // TODO: 2017/9/22 注意不同的进程都会初始化插件入口一次，注意不同进程的数据共享
     @Override
     public boolean OnPluginCreate() {
-        StringUtils.getImei(getContext());
-
+        versionCode=ProcessUtils.getAppVersionCode(getTargetApplication());
+        //MyLog.e("versionCode : %d", versionCode);
+        boolean isSupport= CommonData.isSupportCurrentVersion(versionCode);
+        MyLog.e("supported_version_number  -- %s", isSupport);
+        if(!isSupport){
+            String vesionName=ProcessUtils.getAppVersionName(getTargetApplication());
+            List list = Arrays.asList(CommonData.SUPPORTED_VERSION_NAME);
+            String data=String.format("红牛机器人暂时不支持微信版本名为：%s (%d)，仅支持版本：%s, 请联系更新。。。",vesionName,versionCode, list.toString());
+            MyLog.e("supported_version_number  -- %s", data);
+            Toast.makeText(getTargetApplication(), data, Toast.LENGTH_LONG).show();
+            return false;
+        }
+        CommonData.initDifferVersionCommonData(versionCode);
         instance = this;
         isMainProce=ProcessUtils.isMainProcess(getContext());
+        if(isMainProce){
+            PowerManager pm = (PowerManager)getContext().getSystemService(POWER_SERVICE);
+            m_wklk = pm.newWakeLock(PowerManager.SCREEN_DIM_WAKE_LOCK, "cn");
+            m_wklk.acquire();
+        }
+
         registerActivityCallback(new ActivityCallback() {
             @Override
             public void OnActivityCreate(Activity activity, Bundle bundle) {
@@ -493,6 +527,10 @@ public class PluginEntry extends Plugin {
             public void OnActivityResume(Activity activity) {
                 currentActivity = activity;
                 String acName = activity.getClass().getName();
+
+                if(InitDataManager.isMainActivity(currentActivity)){
+                    m_wklk.acquire();
+                }
 
 /*                int pid=android.os.Process.myPid();
                 String proceName=ProcessUtils.getCurrentPrecessName(getContext(), pid);*/
@@ -553,9 +591,10 @@ public class PluginEntry extends Plugin {
     @Override
     public void OnPlguinDestroy() {
         MyLog.e("OnPlguinDestroy-- " + currentActivity.toString());
-        if (currentActivity.getClass().getName().contains(CommonData.FIRST_MAIN_ACTIVITY) && isMainProce) {
+        if (currentActivity.getClass().getName().contains(CommonData.default_first_main_activity) && isMainProce) {
             WebSocketService.closeWebsocket();
             getContext().stopService(websecketServiceIntent);
+            m_wklk.release();
         }
     }
 

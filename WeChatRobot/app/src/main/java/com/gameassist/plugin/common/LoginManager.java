@@ -3,6 +3,7 @@ package com.gameassist.plugin.common;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
+import android.widget.Toast;
 
 import com.gameassist.plugin.bean.TokenBean;
 import com.gameassist.plugin.utils.HttpUtils;
@@ -108,7 +109,12 @@ public class LoginManager {
             TokenBean tokenBean=getTokenData(result);
             if(tokenBean!=null){
                 MyLog.e("token --- 1111 %s", tokenBean.token);
-                SharedPreferenceUtils.saveOrUpdateToken(context, tokenBean);
+                if(tokenBean.rc==0){
+                    SharedPreferenceUtils.saveOrUpdateToken(context, tokenBean);
+                    Toast.makeText(context,"登录成功。。。",Toast.LENGTH_LONG).show();
+                }else{
+                    Toast.makeText(context,tokenBean.msg,Toast.LENGTH_LONG).show();
+                }
             }else {
                 MyLog.e("token --- is null");
             }

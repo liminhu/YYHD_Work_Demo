@@ -5,11 +5,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.gameassist.plugin.hongbao.HongBaoView;
+import com.gameassist.plugin.hongbao.WalletLuckyMoneyDetail;
+import com.gameassist.plugin.mm.robot.PluginEntry;
+
+import java.util.HashMap;
 import java.util.Set;
 
 import static com.gameassist.plugin.utils.FileUtils.copyByDrawingCache;
@@ -20,6 +26,66 @@ import static com.gameassist.plugin.utils.FileUtils.saveBitmap;
  */
 
 public class TestUtils {
+
+
+    public static void getHongBaoPrintfALlFiledS(Activity activity){
+        MyLog.e("activity : "+activity.toString());
+      //  ReflectionUtils.getAllFields(activity);
+      //  printActivityLog(activity);
+        WalletLuckyMoneyDetail.initFieldMethodMap();
+        WalletLuckyMoneyDetail.getCurrentHongBaoDetails(activity);
+    }
+
+
+
+     public static void getPrintfALlFiledS(Activity activity){
+         MyLog.e("activity : "+activity.toString());
+         String default_homeUI_upx="vnc";
+       //  ReflectionUtils.getAllFields(activity);
+         MyLog.e("**********************     00000");
+         Object home1=ReflectionUtils.getValue(activity, default_homeUI_upx);
+       //  ReflectionUtils.getAllFields(home1);
+
+
+         default_homeUI_upx="vnd";
+         Object home2=ReflectionUtils.getValue(activity, default_homeUI_upx);
+         ReflectionUtils.getAllFields(home2);
+
+
+         MyLog.e("**********************     5555");
+
+
+         default_homeUI_upx="vne";
+          home2=ReflectionUtils.getValue(activity, default_homeUI_upx);
+      //   ReflectionUtils.getAllFields(home2);
+
+/*         MyLog.e("**********************     222");
+
+         default_homeUI_upx="vjK";
+        Object home=ReflectionUtils.getValue(home1, default_homeUI_upx);
+        ReflectionUtils.getAllFields(home);
+
+
+         MyLog.e("**********************  1111");
+         default_homeUI_upx="mJi";
+         home=ReflectionUtils.getValue(home1, default_homeUI_upx);
+         ReflectionUtils.getAllFields(home);*/
+     }
+
+
+
+    //获取当前登录的用户
+    public static String getCurrentUser(String test){
+        String chat_User= (String)ReflectionUtils.callStaticMethod(PluginEntry.getInstance().getTargetApplication(), "com.tencent.mm.x.m", test);//"zF"
+        if(TextUtils.isEmpty(chat_User)){
+            chat_User=" is null";
+        }
+        MyLog.e("com.tencent.mm.x -- chat_User : %s", chat_User);
+        return  chat_User;
+    }
+
+
+
     public static  void printfLuckyMoneyLog(Activity currentActivity){
         try{
             Object npP=ReflectionUtils.getValue(currentActivity,"npP");
@@ -184,5 +250,18 @@ public class TestUtils {
         }
     }
 
+
+
+    public static void printHashMap(HashMap hashMap){
+        MyLog.e("hashMap   ----  11111 ");
+        if(hashMap!=null && hashMap.size()>0){
+            MyLog.e("hashMap.size  Log  ----   "+hashMap.size());
+            Set<String> keySet = hashMap.keySet();  //获取所有的Key,
+            for (String key : keySet) {  //bundle.get(key);来获取对应的value
+                MyLog.e("key : "+key);
+                MyLog.e("key : "+key +"\t value --- "+ hashMap.get(key));
+            }
+        }
+    }
 
 }

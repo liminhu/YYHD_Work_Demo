@@ -22,8 +22,7 @@
 
 
 #############    保留入口，不要混淆     #############
--keep class com.gameassist.plugin.** { public *;}
--keep class com.wepie.snake.** { public *;}
+
 
 #############    保留需要替换的类，不要混淆     #############
 #-keep class com.ndkdemo.** { *;}
@@ -36,11 +35,11 @@
 
 -keepclassmembers class * {    native <methods>;}
 
-#
+
 ##############    标准系统接口类，不用混淆     ###################
-#-keep public class * extends android.view.View {*;}
-#-keep class * implements android.os.Parcelable { public static final android.os.Parcelable$Creator *;}
-#-keepclasseswithmembers class * {public <init>(android.content.Context, android.util.AttributeSet, int);}
+-keep public class * extends android.view.View {*;}
+-keep class * implements android.os.Parcelable { public static final android.os.Parcelable$Creator *;}
+-keepclasseswithmembers class * {public <init>(android.content.Context, android.util.AttributeSet, int);}
 #-keepclassmembers class * extends java.lang.Enum {
 #    <fields>;
 #    public static **[] values();
@@ -48,10 +47,10 @@
 #}
 #
 #-keep public class * extends android.app.Activity
-#-keep public class * extends android.content.ContextWrapper
+-keep public class * extends android.content.ContextWrapper
 #-keep public class * extends android.app.Application
 #-keep public class * extends android.app.Service
-#-keep public class * extends android.content.BroadcastReceiver
+-keep public class * extends android.content.BroadcastReceiver
 #-keep public class * extends android.content.ContentProvider
 #-keep public class * extends android.preference.Preference
 #-keep public class * extends android.support.v4

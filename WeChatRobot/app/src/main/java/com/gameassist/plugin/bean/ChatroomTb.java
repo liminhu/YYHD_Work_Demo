@@ -28,7 +28,6 @@ public class ChatroomTb {
     private    String chatroom_name;
     private   String member_list;
 
-
     public  static   Map<String, String> map=new HashMap<>();
 
     public  void updateMemberMap(){

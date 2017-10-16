@@ -8,10 +8,14 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.gameassist.plugin.common.CommonData;
+import com.gameassist.plugin.common.InitDataManager;
 import com.gameassist.plugin.common.LoginManager;
 import com.gameassist.plugin.utils.DialogUtils;
 import com.gameassist.plugin.utils.MyLog;
+import com.gameassist.plugin.utils.ReflectionUtils;
 import com.gameassist.plugin.utils.SharedPreferenceUtils;
+import com.gameassist.plugin.utils.TestUtils;
 import com.gameassist.plugin.websocket.WebSocketService;
 
 /**
@@ -90,12 +94,20 @@ public class PluginVIew extends FrameLayout implements View.OnClickListener {
                 break;
 
             case R.id.insturct_login:  //登录
-               // handler.sendEmptyMessage(2006);
                 DialogUtils.showLoginDialog(getContext(), PluginEntry.currentActivity);
                 break;
 
             case R.id.set_default_rule:   //设置规则
                 handler.sendEmptyMessage(2);
+       /*         CommonData.initDifferVersionCommonData(PluginEntry.versionCode);
+                String data=InitDataManager.getCurrentChatRoomNameByActivity(PluginEntry.currentActivity);
+                if(TextUtils.isEmpty(data)){
+                    data=" is null";
+                }
+                MyLog.e(data);*/
+               //TestUtils.printActivityLog(PluginEntry.currentActivity);
+               // TestUtils.getPrintfALlFiledS(PluginEntry.currentActivity);
+               // TestUtils.getHongBaoPrintfALlFiledS(PluginEntry.currentActivity);
                 break;
         }
     }

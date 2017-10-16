@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.gameassist.plugin.common.CommonData;
 import com.gameassist.plugin.utils.MyLog;
 import com.gameassist.plugin.utils.ReflectionUtils;
+import com.gameassist.plugin.utils.TestUtils;
 
 import org.json.JSONObject;
 
@@ -97,21 +98,25 @@ public class WalletLuckyMoneyDetail {
             String acName=currentActivity.getClass().getName();
             String needActivityName=(String)field_method_map.get(CURRENT_NEED_ACTIVITY_NAME);
             if(needActivityName.equals(acName)){
+                MyLog.e(LIST_GETVIEW_BASEADAPTER+"\t%s",(String)field_method_map.get(LIST_GETVIEW_BASEADAPTER));
                 Object npP=ReflectionUtils.getValue(currentActivity, (String)field_method_map.get(LIST_GETVIEW_BASEADAPTER));
                 if(npP!=null){
+                    MyLog.e("getCount  ---- ");
                     Integer size= (Integer) ReflectionUtils.callMethod(npP,"getCount");
                     if(size!=null && size>0){
                         String key_sendId=currentActivity.getIntent().getStringExtra((String)field_method_map.get(KEY_SENDID));
                         if(TextUtils.isEmpty(key_sendId)){
                             return null;
                         }
-                       // MyLog.e("size --- "+size);
+                        MyLog.e("size --- "+size);
                         list=new ArrayList();
                         for(int i=0; i<size; i++){
                             WalletLuckyMoneyDetail walletLuckyMoneyDetail=new WalletLuckyMoneyDetail();
                             Object m=ReflectionUtils.callMethod(npP, "getItem", new Class[]{int.class}, new Object[]{i});
                             if(m!=null){
-                                // MyLog.e(m.toString());
+                                MyLog.e("*************************");
+                              //  MyLog.e(m.toString());
+                              //  ReflectionUtils.getAllFields(m);
                                 walletLuckyMoneyDetail.setKey_sendid(key_sendId);
                                 walletLuckyMoneyDetail.setReceive_userName((String)ReflectionUtils.getValue(m, (String)field_method_map.get(RECEIVE_USERNAME)));
                                 walletLuckyMoneyDetail.setNick_name((String)ReflectionUtils.getValue(m, (String)field_method_map.get(NICK_NAME)));

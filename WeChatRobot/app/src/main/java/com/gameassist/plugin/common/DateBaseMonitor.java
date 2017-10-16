@@ -29,8 +29,8 @@ public class DateBaseMonitor {
 
     public DateBaseMonitor(Context context) {
         this.context = context;
-        clzSqliteDatabase=CommonData.CLZ_SQLITE_DATABASE;
-        methodActivDb=CommonData.METHOD_ACTIVDB;
+        clzSqliteDatabase=CommonData.default_clz_sqlite_database;
+        methodActivDb=CommonData.default_method_activdb;
     }
 
 

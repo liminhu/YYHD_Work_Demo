@@ -15,7 +15,7 @@ import java.util.List;
 
 public class InitDataManager {
     public static  boolean isMainActivity(Activity activity){
-        if(activity.toString().contains(CommonData.FIRST_MAIN_ACTIVITY) || activity.toString().contains(CommonData.SECOND_MAIN_ACTIVITY)){
+        if(activity.toString().contains(CommonData.default_first_main_activity) || activity.toString().contains(CommonData.default_second_main_activity)){
             return true;
         }
         return false;
@@ -24,18 +24,18 @@ public class InitDataManager {
 
 
     public  static String  getCurrentChatRoomNameByActivity(Activity currentActivity){
-        if(currentActivity.toString().contains(CommonData.SECOND_MAIN_ACTIVITY)){
+        if(currentActivity.toString().contains(CommonData.default_second_main_activity)){
             String  chatroom=currentActivity.getIntent().getStringExtra("Chat_User");
             MyLog.e(currentActivity.toString() + "\tchatroom  ---- "+chatroom);
             return chatroom;
         }
 
-        if(!currentActivity.getClass().getName().contains(CommonData.FIRST_MAIN_ACTIVITY)){
+        if(!currentActivity.getClass().getName().contains(CommonData.default_first_main_activity)){
             return null;
         }
-        Object homeUI= ReflectionUtils.getValue(currentActivity, "uPX");
+        Object homeUI= ReflectionUtils.getValue(currentActivity, CommonData.default_homeUI_upx);
         if(homeUI!=null){
-            Object uPb= ReflectionUtils.getValue(homeUI, "uPb");
+            Object uPb= ReflectionUtils.getValue(homeUI, CommonData.default_homeUI_upb);
             return (String) uPb;
         }
         return  null;

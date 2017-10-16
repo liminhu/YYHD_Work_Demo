@@ -123,10 +123,10 @@ public class WebSocketService extends Service {
                     if(bean.getMsg_type()==0) {  //更新期间指令
                         MyLog.e("hook_更新期间指令 payload=   " + payload);
                        Message mess = Message.obtain();
-                        mess.what = 201;
+                        mess.what = 194; //201;
                         mess.obj = bean;
                         handler.sendMessage(mess);
-                    }else {
+                    }else if(bean.getMsg_type() != 3){ //类型3不转发
                         MyLog.e("转发文字图片指令 payload=   " + payload);
                         Message mess = new Message();
                         mess.what = 194;
@@ -150,7 +150,7 @@ public class WebSocketService extends Service {
             webSocketConnection=null;
             webSocketConnet();
         }
-        handler.sendEmptyMessageDelayed(index, 1000);   //延时
+        handler.sendEmptyMessageDelayed(index, 2000);   //延时
     }
 
     public static void webSocketConnet(){
