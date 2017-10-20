@@ -1,0 +1,16 @@
+-shared
+-Wl,-soname,libRobot.so
+-o
+/Users/hulimin/my-git/Plugins2017S2/WeChatRobot/dep/jni/build/intermediates/binaries/debug/obj/armeabi/libRobot.so
+/Users/hulimin/my-git/Plugins2017S2/WeChatRobot/dep/jni/build/intermediates/objectFiles/RobotArmeabiDebugSharedLibraryMainCpp/19fa06uzer3puxj2azeqfkhps/JNI.o
+/Users/hulimin/my-git/Plugins2017S2/WeChatRobot/dep/jni/build/intermediates/objectFiles/RobotArmeabiDebugSharedLibraryMainCpp/3yogrvpl0xs56saqhoo1fk5su/Utils.o
+-Wl,--no-undefined
+-Wl,-z,noexecstack
+-Wl,-z,relro
+-Wl,-z,now
+-Wl,--build-id
+-L/Users/hulimin/Applications/New_Program_files/Android/SDK/ndk-bundle/sources/cxx-stl/gnu-libstdc++/4.9/libs/armeabi
+-lgnustl_shared
+-no-canonical-prefixes
+-llog
+--sysroot=/Users/hulimin/Applications/New_Program_files/Android/SDK/ndk-bundle/platforms/android-14/arch-arm

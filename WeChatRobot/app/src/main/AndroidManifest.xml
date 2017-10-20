@@ -25,7 +25,7 @@
             android:value="com.tencent.mm" />
         <meta-data
             android:name="Version0"
-            android:value="1100" />
+            android:value="*" />
         <meta-data
             android:name="Label"
             android:value="${APP_DESC}" />

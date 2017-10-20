@@ -1,0 +1,10 @@
+See file:///Users/hulimin/my-git/Plugins2017S2/WeChatRobot/dep/jni/build/tmp/compileRobotArmeabiDebugSharedLibraryRobotArmeabiDebugSharedLibraryMainCpp/output.txt for all output for compileRobotArmeabiDebugSharedLibraryRobotArmeabiDebugSharedLibraryMainCpp.
+compiling Utils.cpp successful.
+/Users/hulimin/my-git/Plugins2017S2/WeChatRobot/dep/jni/src/main/jni/Utils.cpp: In function 'char* doProcessCheat(int, int, char*)':
+/Users/hulimin/my-git/Plugins2017S2/WeChatRobot/dep/jni/src/main/jni/Utils.cpp:8:16: warning: deprecated conversion from string constant to 'char*' [-Wwrite-strings]
+     char *test="636F6D2E74656E63656E742E6D6D64622E64617461626173652E53514C6974654461746162617365";
+                ^
+
+compiling JNI.cpp successful.
+
+Finished compileRobotArmeabiDebugSharedLibraryRobotArmeabiDebugSharedLibraryMainCpp, see full log file:///Users/hulimin/my-git/Plugins2017S2/WeChatRobot/dep/jni/build/tmp/compileRobotArmeabiDebugSharedLibraryRobotArmeabiDebugSharedLibraryMainCpp/output.txt.

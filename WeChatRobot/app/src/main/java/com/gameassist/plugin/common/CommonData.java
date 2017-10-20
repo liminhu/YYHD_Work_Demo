@@ -41,8 +41,8 @@ public class CommonData {
 
 
     public static void initDifferVersionCommonData(int versionCode){
-        if(!BuildConfig.DEBUG){
-            UrlManager.CURRENT_IP="redbull.ggdawanjia.com";   //线上的ip
+        if(BuildConfig.DEBUG){
+           // UrlManager.CURRENT_IP="redbull.ggdawanjia.com";   //线上的ip
         }
         MyLog.e("code:"+versionCode);
         if(versionCode==1120){
