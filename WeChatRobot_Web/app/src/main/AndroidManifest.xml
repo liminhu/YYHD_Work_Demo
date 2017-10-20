@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gameassist.plugin.mm.robot"
+    android:versionCode="1"
+    android:versionName="1.0.1">
+
+    <uses-sdk
+        android:minSdkVersion="5"
+        android:targetSdkVersion="21" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
+    <application
+        android:allowBackup="false"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:label="${APP_DESC}">
+        <meta-data
+            android:name="Entry"
+            android:value="com.gameassist.plugin.mm.robot.PluginEntry" />
+        <meta-data
+            android:name="Target0"
+            android:value="com.tencent.mm" />
+        <meta-data
+            android:name="Version0"
+            android:value="*" />
+        <meta-data
+            android:name="Label"
+            android:value="${APP_DESC}" />
+
+        <service
+            android:name="com.gameassist.plugin.websocket.WebSocketService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+    </application>
+
+</manifest>

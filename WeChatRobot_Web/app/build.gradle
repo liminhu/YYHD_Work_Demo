@@ -1,0 +1,61 @@
+apply plugin: 'com.android.application'
+
+android {
+    signingConfigs {
+        SignConfig {
+            keyAlias 'iplay'
+            keyPassword 'passwd11'
+            storeFile file('release.keystore')
+            storePassword 'passwd11'
+        }
+    }
+
+
+    compileSdkVersion 23
+    buildToolsVersion "26.0.0"
+    defaultConfig {
+        applicationId "com.gameassist.plugin.mm.robot"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0.1"
+    }
+    buildTypes {
+        release {
+            minifyEnabled true   //true即为开启混淆
+            proguardFiles 'proguard-rules.pro'
+            signingConfig signingConfigs.SignConfig
+            zipAlignEnabled true
+        }
+
+        debug{
+            applicationIdSuffix ".debug"
+        }
+    }
+
+
+    productFlavors {
+        disheng {//
+            applicationId "com.gameassist.plugin.mm.robot.disheng"
+            manifestPlaceholders = [APP_NAME: "红牛机器人-网页版", APP_DESC: "红牛机器人-网页版"]
+        }
+    }
+
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(
+                    output.outputFile.parent,
+                    "plugin-robot-${variant.buildType.name}-v${variant.versionCode}-${variant.productFlavors[0].name}.apk".toLowerCase())
+        }
+    }
+}
+
+
+dependencies {
+    compile 'com.squareup.okhttp3:okhttp:3.9.0'
+    compile project(':jni')
+    provided files('libs/pluginInterface.jar')
+    compile files('libs/autobahn.jar')
+    compile files('libs/core.jar')
+}

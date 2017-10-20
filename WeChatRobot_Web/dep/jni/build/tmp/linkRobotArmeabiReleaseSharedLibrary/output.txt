@@ -1,0 +1,4 @@
+See file:///Users/hulimin/my-git/Plugins2017S2/WeChatRobot_Web/dep/jni/build/tmp/linkRobotArmeabiReleaseSharedLibrary/output.txt for all output for linkRobotArmeabiReleaseSharedLibrary.
+linking libRobot.so successful.
+
+Finished linkRobotArmeabiReleaseSharedLibrary, see full log file:///Users/hulimin/my-git/Plugins2017S2/WeChatRobot_Web/dep/jni/build/tmp/linkRobotArmeabiReleaseSharedLibrary/output.txt.
